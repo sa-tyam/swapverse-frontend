@@ -1,0 +1,788 @@
+{
+  "version": "0.1.0",
+  "name": "swapverse",
+  "instructions": [
+    {
+      "name": "initializeGlobalState",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "usdcTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "usdtTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "uxdTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paiTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "usdhTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "getTestTokens",
+      "accounts": [
+        {
+          "name": "investor",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "investorTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "createSwapPool",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenBMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolShareTokenAMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolShareTokenBMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "initialAmountA",
+          "type": "u64"
+        },
+        {
+          "name": "initialAmountB",
+          "type": "u64"
+        },
+        {
+          "name": "swapFeePercentage",
+          "type": "u8"
+        },
+        {
+          "name": "swapverseFeePercentage",
+          "type": "u8"
+        },
+        {
+          "name": "minInvestmentAmount",
+          "type": "u64"
+        },
+        {
+          "name": "maxDaysToFill",
+          "type": "u8"
+        },
+        {
+          "name": "swapLifeInDays",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "investSwapPool",
+      "accounts": [
+        {
+          "name": "investor",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapPoolTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "investorTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolShareTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "investorPoolShareTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "investorPoolInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawSwapPool",
+      "accounts": [
+        {
+          "name": "investor",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenBMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapPoolTokenAAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapPoolTokenBAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "investorTokenAAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "investorTokenBAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolShareTokenAMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolShareTokenBMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "investorPoolShareTokenAAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "investorPoolShareTokenBAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "investorPoolInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "isTokenA",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "swapToken",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenBMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenBAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapPoolTokenAAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapPoolTokenBAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapPoolTreasuryTokenAAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapPoolTreasuryTokenBAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "minAmountOut",
+          "type": "u64"
+        },
+        {
+          "name": "isTokenInTokenA",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "claimProfit",
+      "accounts": [
+        {
+          "name": "investor",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenBMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapPoolTreasuryTokenAAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapPoolTreasuryTokenBAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "investorTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolShareTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "investorPoolShareTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "investorPoolInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GlobalState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tokenMints",
+            "type": {
+              "array": [
+                "publicKey",
+                5
+              ]
+            }
+          },
+          {
+            "name": "signingAuthorityBump",
+            "type": "u8"
+          },
+          {
+            "name": "noOfSwapPools",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InvestorPoolInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "investor",
+            "type": "publicKey"
+          },
+          {
+            "name": "swapPool",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenAWithdrawn",
+            "type": "u64"
+          },
+          {
+            "name": "tokenBWithdrawn",
+            "type": "u64"
+          },
+          {
+            "name": "profitForTokenAWithdrawn",
+            "type": "u64"
+          },
+          {
+            "name": "profitForTokenBWithdrawn",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SwapPool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "poolNumber",
+            "type": "u64"
+          },
+          {
+            "name": "activeForSwap",
+            "type": "bool"
+          },
+          {
+            "name": "openForInvestment",
+            "type": "bool"
+          },
+          {
+            "name": "openForWithdrawal",
+            "type": "bool"
+          },
+          {
+            "name": "tokenAMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenBMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolShareTokenAMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolShareTokenBMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "initialAmountA",
+            "type": "u64"
+          },
+          {
+            "name": "initialAmountB",
+            "type": "u64"
+          },
+          {
+            "name": "swapFeePercentage",
+            "type": "u8"
+          },
+          {
+            "name": "swapverseFeePercentage",
+            "type": "u8"
+          },
+          {
+            "name": "minInvestmentAmount",
+            "type": "u64"
+          },
+          {
+            "name": "maxDaysToFill",
+            "type": "u8"
+          },
+          {
+            "name": "swapLifeInDays",
+            "type": "u64"
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "activatedAt",
+            "type": "i64"
+          },
+          {
+            "name": "tokenAAmountToBeDistributed",
+            "type": "u64"
+          },
+          {
+            "name": "tokenBAmountToBeDistributed",
+            "type": "u64"
+          },
+          {
+            "name": "profitOfTokenAAmountToBeDistributed",
+            "type": "u64"
+          },
+          {
+            "name": "profitOfTokenBAmountToBeDistributed",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnauthorizedSigner",
+      "msg": "User not authorized to use this instruction"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidTokenMint",
+      "msg": "Token mint should be one of the defined stable coin mints"
+    },
+    {
+      "code": 6002,
+      "name": "SameTokenMints",
+      "msg": "Token a mint and token b mint can not be same"
+    },
+    {
+      "code": 6003,
+      "name": "InitialAmountsNotSame",
+      "msg": "Initial amount a and initial amount b should be same"
+    },
+    {
+      "code": 6004,
+      "name": "SwapPoolNotOpenForInvestment",
+      "msg": "Swap pool not open for investments"
+    },
+    {
+      "code": 6005,
+      "name": "SwapPoolNotOpenForWithdrawal",
+      "msg": "Swap pool not open for withdrawals"
+    },
+    {
+      "code": 6006,
+      "name": "InsufficientAmount",
+      "msg": "Amount should be greater than minimum investment amount of pool"
+    },
+    {
+      "code": 6007,
+      "name": "DepositAmountIsZero",
+      "msg": "Deposit amount is zero"
+    },
+    {
+      "code": 6008,
+      "name": "WithdrawAmountIsZero",
+      "msg": "Withdraw amount is zero"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidPoolTokenMint",
+      "msg": "Token should be one of the tokens specified in the pool"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidPoolShareTokenMint",
+      "msg": "Token should be one of the pool share tokens specified in the pool"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidInvestorTokenAccountOwner",
+      "msg": "Investor should be the owner of investor token account"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidInvestorTokenAccountMint",
+      "msg": "Investor token account mint should be same as the token mint"
+    },
+    {
+      "code": 6013,
+      "name": "SwapPoolNotActivated",
+      "msg": "Swap pool not activated for swapping"
+    },
+    {
+      "code": 6014,
+      "name": "NotEnoughTokens",
+      "msg": "Not enough tokens"
+    },
+    {
+      "code": 6015,
+      "name": "TokenAmountLimitExceeded",
+      "msg": "Maximum 10_000_000 tokens can be minted at once"
+    },
+    {
+      "code": 6016,
+      "name": "NotEnoughOutput",
+      "msg": "The output is not enough as asked by user"
+    }
+  ]
+}

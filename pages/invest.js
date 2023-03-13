@@ -1,11 +1,6 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "@next/font/google";
-import SwapPools from "@/components/SwapPools";
-import SwapTokens from "@/components/SwapTokens";
+import InvestPool from "@/components/InvestPool";
+import InvestPools from "@/components/InvestPools";
 import { useState } from "react";
-
-const inter = Inter({ subsets: ["latin"] });
 
 const styles = {
   container: `max-w-7xl flex-1`,
@@ -16,11 +11,12 @@ const styles = {
   swapTokensContainer: `flex justify-center h-screen flex-[1] flex flex-grow justify-items-center justify-center p-[1rem]`,
 };
 
-export default function Home() {
+export default function Invest() {
   const [swapPoolAddress, setSwapPoolAddress] = useState("");
+
   const [hideDiv, setHideDiv] = useState(true);
 
-  const swapItemOnClick = (swapPoolAddress) => {
+  const investItemOnClick = (swapPoolAddress) => {
     setSwapPoolAddress(swapPoolAddress);
     setHideDiv(false);
   };
@@ -28,13 +24,13 @@ export default function Home() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.swapPoolsContainer}>
-        <SwapPools itemOnClick={swapItemOnClick} />
+        <InvestPools itemOnClick={investItemOnClick} />
       </div>
       <div className={styles.swapTokensContainer}>
         {hideDiv ? (
           <></>
         ) : (
-          <SwapTokens key={swapPoolAddress} swapPoolAddress={swapPoolAddress} />
+          <InvestPool key={swapPoolAddress} swapPoolAddress={swapPoolAddress} />
         )}
       </div>
     </div>

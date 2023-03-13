@@ -16,9 +16,7 @@ import {
 import * as anchor from "@project-serum/anchor";
 import { SWAPVERSE_PROGRAM_PUBKEY } from "../constants";
 import swapverseIDL from "../constants/swapverse.json";
-import {
-  getAssociatedTokenAddress,
-} from "@solana/spl-token";
+import { getAssociatedTokenAddress } from "@solana/spl-token";
 
 import { useInstructions } from "@/hooks/instructions";
 
@@ -109,10 +107,14 @@ const UserInvestmentsItems = ({ poolItem }) => {
     useState(0);
   const [investorProfitAvailableTokenB, setInvestorProfitAvailableTokenB] =
     useState(0);
-    const [investorInvestmentAvailableTokenA, setInvestorInvestmentAvailableTokenA] =
-    useState(0);
-  const [investorInvestmentAvailableTokenB, setInvestorInvestmentAvailableTokenB] =
-    useState(0);
+  const [
+    investorInvestmentAvailableTokenA,
+    setInvestorInvestmentAvailableTokenA,
+  ] = useState(0);
+  const [
+    investorInvestmentAvailableTokenB,
+    setInvestorInvestmentAvailableTokenB,
+  ] = useState(0);
 
   function timeConverter(UNIX_timestamp) {
     var a = new Date(UNIX_timestamp * 1000);
@@ -250,16 +252,19 @@ const UserInvestmentsItems = ({ poolItem }) => {
           );
 
         if (tokenBAccountBalance.value.amount > 0 && initialAmountA > 0) {
-          setRatioAB((product / tokenBAccountBalance.value.amount)/initialAmountB);
+          setRatioAB(
+            product / tokenBAccountBalance.value.amount / initialAmountB
+          );
         } else {
           setRatioAB(1);
         }
         if (tokenAAccountBalance.value.amount > 0 && initialAmountA > 0) {
-          setRatioBA((product / tokenAAccountBalance.value.amount)/initialAmountA);
+          setRatioBA(
+            product / tokenAAccountBalance.value.amount / initialAmountA
+          );
         } else {
           setRatioBA(1);
         }
-        
 
         let [pool_share_token_a_mint, pool_share_token_a_mint_b] =
           await anchor.web3.PublicKey.findProgramAddress(
@@ -329,55 +334,28 @@ const UserInvestmentsItems = ({ poolItem }) => {
         setInvestorInvestmentWithdrawnTokenA(investorPoolInfo.tokenAWithdrawn);
         setInvestorInvestmentWithdrawnTokenB(investorPoolInfo.tokenBWithdrawn);
 
-        setInvestorInvestmentAvailableTokenA(investorPoolShareTokenA - investorInvestmentWithdrawnTokenA);
-        setInvestorInvestmentAvailableTokenB(investorPoolShareTokenB - investorInvestmentWithdrawnTokenB);
+        setInvestorInvestmentAvailableTokenA(
+          investorPoolShareTokenA - investorInvestmentWithdrawnTokenA
+        );
+        setInvestorInvestmentAvailableTokenB(
+          investorPoolShareTokenB - investorInvestmentWithdrawnTokenB
+        );
 
-        let [swap_pool_treasury_token_a_ata_add, swap_pool_treasury_token_a_b] =
-          await anchor.web3.PublicKey.findProgramAddress(
-            [
-              poolItem.address.toBuffer(),
-              tokenAMint.toBuffer(),
-              Buffer.from("treasury-account"),
-            ],
-            program.programId
-          );
-        try {
-          const swap_pool_treasury_token_a_ata_balance =
-            await connection.getTokenAccountBalance(
-              swap_pool_treasury_token_a_ata_add
-            );
+        let investor_share_a =
+          (poolItem.pool.profitOfTokenBAmountToBeDistributed *
+            investorPoolShareTokenA) /
+          initialAmountA;
+        setInvestorProfitAvailableTokenA(
+          investor_share_a - investorProfitWithdrawnTokenA
+        );
 
-          let investor_share_a =
-            (swap_pool_treasury_token_a_ata_balance.value.amount * investorPoolShareTokenA) /
-            initialAmountA;
-          setInvestorProfitAvailableTokenA(investor_share_a - investorProfitWithdrawnTokenA);
-        } catch (e) {
-          setInvestorProfitAvailableTokenA(0);
-        }
-
-        let [swap_pool_treasury_token_b_ata_add, swap_pool_treasury_token_b_b] =
-          await anchor.web3.PublicKey.findProgramAddress(
-            [
-              poolItem.address.toBuffer(),
-              tokenBMint.toBuffer(),
-              Buffer.from("treasury-account"),
-            ],
-            program.programId
-          );
-
-        try {
-          const swap_pool_treasury_token_b_ata_balance =
-            await connection.getTokenAccountBalance(
-              swap_pool_treasury_token_b_ata_add
-            );
-
-          let investor_share_b =
-            (swap_pool_treasury_token_b_ata_balance.value.amount * investorPoolShareTokenB) /
-            initialAmountB;
-          setInvestorProfitAvailableTokenB(investor_share_b - investorProfitWithdrawnTokenB);
-        } catch (e) {
-          setInvestorProfitAvailableTokenB(0);
-        }
+        let investor_share_b =
+          (poolItem.pool.profitOfTokenBAmountToBeDistributed *
+            investorPoolShareTokenB) /
+          initialAmountB;
+        setInvestorProfitAvailableTokenB(
+          investor_share_b - investorProfitWithdrawnTokenB
+        );
       } catch (e) {
         console.log(e);
         setRatioAB(1);
@@ -391,12 +369,12 @@ const UserInvestmentsItems = ({ poolItem }) => {
 
   const handleWithdrawInvestment = async (isTokenA) => {
     await withdrawInvestmentPool(poolItem.address, mintA, mintB, isTokenA);
-    Router.reload()
+    Router.reload();
   };
 
   const handleWithdrawProfit = async (isTokenA) => {
     await withdrawProfitPool(poolItem.address, mintA, mintB, isTokenA);
-    Router.reload()
+    Router.reload();
   };
 
   return (
@@ -416,7 +394,9 @@ const UserInvestmentsItems = ({ poolItem }) => {
             <span className={styles.tokenNameSpan}>{nameA}</span>
           </div>
           <div className={styles.tokenRatioContainer}>
-            <span className={styles.tokenRatioSpan}>1 &#x2192; {ratioBA.toFixed(4)}</span>
+            <span className={styles.tokenRatioSpan}>
+              1 &#x2192; {ratioBA.toFixed(4)}
+            </span>
           </div>
         </div>
         <div className={styles.withdrawalContainer}>
@@ -428,8 +408,16 @@ const UserInvestmentsItems = ({ poolItem }) => {
               </div>
             </div>
             <div
-              className={ investorProfitAvailableTokenA > 0 ? styles.withdrawButtonActive : styles.withdrawButtonInActive}
-              onClick={() => (investorProfitAvailableTokenA > 0 ? handleWithdrawProfit(true): {})}
+              className={
+                investorProfitAvailableTokenA > 0
+                  ? styles.withdrawButtonActive
+                  : styles.withdrawButtonInActive
+              }
+              onClick={() =>
+                investorProfitAvailableTokenA > 0
+                  ? handleWithdrawProfit(true)
+                  : {}
+              }
             >
               Withdraw Profit
             </div>
@@ -442,8 +430,16 @@ const UserInvestmentsItems = ({ poolItem }) => {
               </div>
             </div>
             <div
-              className={investorInvestmentAvailableTokenA > 0 ? styles.withdrawButtonActive : styles.withdrawButtonInActive}
-              onClick={() => (investorInvestmentAvailableTokenA > 0 ? handleWithdrawInvestment(true) : {})}
+              className={
+                investorInvestmentAvailableTokenA > 0
+                  ? styles.withdrawButtonActive
+                  : styles.withdrawButtonInActive
+              }
+              onClick={() =>
+                investorInvestmentAvailableTokenA > 0
+                  ? handleWithdrawInvestment(true)
+                  : {}
+              }
             >
               Withdraw Investment
             </div>
@@ -494,8 +490,16 @@ const UserInvestmentsItems = ({ poolItem }) => {
               </div>
             </div>
             <div
-              className={investorProfitAvailableTokenB > 0 ? styles.withdrawButtonActive : styles.withdrawButtonInActive}
-              onClick={() => (investorProfitAvailableTokenB > 0 ? handleWithdrawProfit(false) : {})}
+              className={
+                investorProfitAvailableTokenB > 0
+                  ? styles.withdrawButtonActive
+                  : styles.withdrawButtonInActive
+              }
+              onClick={() =>
+                investorProfitAvailableTokenB > 0
+                  ? handleWithdrawProfit(false)
+                  : {}
+              }
             >
               Withdraw Profit
             </div>
@@ -508,8 +512,16 @@ const UserInvestmentsItems = ({ poolItem }) => {
               </div>
             </div>
             <div
-              className={investorInvestmentAvailableTokenB > 0 ? styles.withdrawButtonActive : styles.withdrawButtonInActive}
-              onClick={() => (investorInvestmentAvailableTokenB > 0 ? handleWithdrawInvestment(false) : {})}
+              className={
+                investorInvestmentAvailableTokenB > 0
+                  ? styles.withdrawButtonActive
+                  : styles.withdrawButtonInActive
+              }
+              onClick={() =>
+                investorInvestmentAvailableTokenB > 0
+                  ? handleWithdrawInvestment(false)
+                  : {}
+              }
             >
               Withdraw Investment
             </div>
@@ -529,7 +541,9 @@ const UserInvestmentsItems = ({ poolItem }) => {
             <span className={styles.tokenNameSpan}>{nameB}</span>
           </div>
           <div className={styles.tokenRatioContainer}>
-            <span className={styles.tokenRatioSpan}>1 &#x2192; {ratioAB.toFixed(4)}</span>
+            <span className={styles.tokenRatioSpan}>
+              1 &#x2192; {ratioAB.toFixed(4)}
+            </span>
           </div>
         </div>
       </div>

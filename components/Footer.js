@@ -42,17 +42,6 @@ const Footer = () => {
           <div className={styles.link}>Create a new Pool</div>
         </Link>
       </div>
-      {initialized ? (
-        <div></div>
-      ) : (
-        <div
-          className={styles.item}
-          onClick={() => initializeGlobalState()}
-          disabled={transactionPending}
-        >
-          Initialize Global State
-        </div>
-      )}
       <Modal
         isOpen={Boolean(router.query.getTestToken)}
         onRequestClose={() => router.push("/")}

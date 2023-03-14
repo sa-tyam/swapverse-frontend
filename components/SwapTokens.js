@@ -90,9 +90,6 @@ const SwapTokens = ({ swapPoolAddress }) => {
             swapPoolAddress
           );
 
-          setInitialAmountA(swapPoolAccount.initialAmountA);
-          setInitialAmountB(swapPoolAccount.initialAmountB);
-
           let poolItem = swapPoolAccount;
           let tokenAMint = poolItem.tokenAMint;
           if (
@@ -243,7 +240,7 @@ const SwapTokens = ({ swapPoolAddress }) => {
     };
 
     setValues();
-  }, [program, publicKey, swapPoolAddress]);
+  }, [program, publicKey, swapPoolAddress, connection, currentAmountA, currentAmountB, initialAmountA, initialAmountB]);
 
   function toggleClick() {
     setIsTokenA(!isTokenA);
@@ -312,8 +309,8 @@ const SwapTokens = ({ swapPoolAddress }) => {
           <div className={styles.amountOutputContainer}>
             <span className={styles.amountOutputSpan}>
               {!isTokenA
-                ? (ratioBA * amount).toFixed(4)
-                : (ratioAB * amount).toFixed(4)}
+                ? (ratioAB * amount).toFixed(4)
+                : (ratioBA * amount).toFixed(4)}
             </span>
           </div>
         </div>

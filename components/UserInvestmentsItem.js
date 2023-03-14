@@ -363,7 +363,22 @@ const UserInvestmentsItems = ({ poolItem }) => {
       }
     };
     handleTokenChange();
-  }, [program, poolItem]);
+  }, [
+    connection,
+    program,
+    poolItem,
+    initialAmountA,
+    initialAmountB,
+    investorProfitAvailableTokenA,
+    investorProfitAvailableTokenB,
+    investorPoolShareTokenA,
+    investorPoolShareTokenB,
+    publicKey,
+    investorProfitWithdrawnTokenA,
+    investorProfitWithdrawnTokenB,
+    investorInvestmentWithdrawnTokenA,
+    investorInvestmentWithdrawnTokenB
+  ]);
 
   const { withdrawInvestmentPool, withdrawProfitPool } = useInstructions();
 
@@ -473,7 +488,7 @@ const UserInvestmentsItems = ({ poolItem }) => {
         </div>
         <div className={styles.poolDetailContainerItem}>
           <div className={styles.poolDetailContainerItemTitle}>
-            Swapverse fee
+            Platform fee
           </div>
           <div className={styles.poolDetailContainerItemValue}>
             {swapverseFee ? swapverseFee.toString() : "0"} percent
